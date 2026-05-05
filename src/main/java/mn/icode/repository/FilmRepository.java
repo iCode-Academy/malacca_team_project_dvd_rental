@@ -10,32 +10,44 @@ import mn.icode.model.Film;
 
 @Repository
 public class FilmRepository {
-    
+
     private final JdbcTemplate jdbcTemplate;
 
     public FilmRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Film> findAll(int limit , int offset){
+    public List<Film> findAll(int limit, int offset) {
         String sql = """
-            SELECT  film_id,title, rating, rental_rate
-                from film  
-                order by title 
-                limit ? offset ?
-                """;
+                SELECT  film_id,title, rating, rental_rate
+                    from film
+                    order by title
+                    limit ? offset ?
+                    """;
         return jdbcTemplate.query(sql, filmRowMapper(), limit, offset);
     }
 
-
-
-    public List<Film> search(String title){
+    public List<Film> search(String title) {
         String sql = """
                 SELECT  film_id, title, rating, rental_rate
-                from film 
+                from film
                 where title like CONCAT('%', ?, '%')
                 """;
-        return jdbcTemplate.query(sql, filmRowMapper(),  title);
+        return jdbcTemplate.query(sql, filmRowMapper(), title);
+    }
+
+    public List<Film> notExist(int limit, int offset) {
+        String sql = """
+                  SELECT  film_id, title, rating, rental_rate
+                 from film f
+                 where film_id not in(
+                 select distinct film_id
+                 from inventory
+                 where film_id is not null)
+                 order by title
+                 limit ? offset ?
+                """;
+        return jdbcTemplate.query(sql, filmRowMapper(), limit, offset);
     }
 
     private RowMapper<Film> filmRowMapper() {
