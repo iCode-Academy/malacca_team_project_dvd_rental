@@ -3,8 +3,7 @@
 
 ## Team A Members
 - Khuslen (Lead)
-- Dadu
-
+P
 ## Team B Members
 - Aagii (Lead)
 - Zoloo
@@ -12,4 +11,4 @@
 
 ## Team C Members
 - Tuguldur (Lead)
-- Ochiroo
+- Ochir
