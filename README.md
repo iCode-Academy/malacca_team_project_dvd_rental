@@ -12,4 +12,4 @@
 
 ## Team C Members
 - Tuguldur (Lead)
-- Ochiroo
+- Ochir
