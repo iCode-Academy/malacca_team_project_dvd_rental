@@ -3,7 +3,7 @@
 
 ## Team A Members
 - Khuslen (Lead)
-P
+- Dadu
 ## Team B Members
 - Aagii (Lead)
 - Zoloo
