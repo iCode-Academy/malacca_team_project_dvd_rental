@@ -4,6 +4,7 @@ public class Actor {
     private Integer actorId;
     private String firstName;
     private String lastName;
+    private String fullName;
 
     public Integer getActorId() {
         return actorId;
@@ -29,5 +30,11 @@ public class Actor {
         this.lastName = lastName;
     }
 
-    
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 }
