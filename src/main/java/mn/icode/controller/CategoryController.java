@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import mn.icode.model.Category;
+import mn.icode.model.FilmTitle;
 import mn.icode.repository.CategoryRepository;
 
 @Controller
@@ -33,12 +34,14 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<Category> getCategoryFilms(@PathVariable("id") int id) {
+    public ResponseEntity<Category> getCategory(@PathVariable("id") int id) {
         return categoryRepository.findCategoryById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    // @GetMapping("/categories/{id}/films")
-    // public ResponseEntity<FilmTitle> filmsByCategory(){
-    //     return 
-    // }
+    @GetMapping("/categories/{id}/films")
+    public ResponseEntity<List<FilmTitle>> filmsByCategory(
+                                        @PathVariable("id") int categoryId){
+        List<FilmTitle> films = categoryRepository.filmsByCategory(categoryId);
+        return ResponseEntity.ok(films);
+    }
 }
