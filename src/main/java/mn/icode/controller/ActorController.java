@@ -29,8 +29,8 @@ public class ActorController {
     }
 
     @GetMapping("/actors/{id}")
-    public ResponseEntity <Actor> getActorById(@PathVariable("actorId")int actorId) {
-       return actorRepository.findById(actorId).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Actor> getActorById(@PathVariable("id") int id) {
+       return actorRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/actors/{id}/films")
