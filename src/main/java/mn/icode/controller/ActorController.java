@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,4 +40,17 @@ public class ActorController {
         return ResponseEntity.ok(actorRepository.findFilmsByActorId(id));
     }
 
+    @PutMapping 
+    @RequestMapping("/actors/{id}")
+    public ResponseEntity<Actor> updateActor(
+        @PathVariable("id") int id,
+        @RequestBody Actor actor){
+            int rows = actorRepository.update(id, actor);
+            if(rows==0){
+                return ResponseEntity.notFound().build();
+            }
+            return actorRepository.findById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+    }
 }

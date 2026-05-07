@@ -68,6 +68,25 @@ public class ActorRepository {
 
     }
 
+    public int update(int id, Actor actor){
+        String sql = """
+                UPDATE actor SET first_name = ?,
+                last_name = ? 
+                where actor_id = ?
+                """;
+            return jdbcTemplate.update(sql, 
+                    actor.getFirstName(), actor.getLastName(), id);
+    }
+
+    public Actor create(Actor actor){
+        String sql = """
+                insert into actor (first_name, last_name)
+                values (?, ?)
+                """;
+        jdbcTemplate.update(sql, actor.getFirstName(), actor.getLastName());
+        return actor;
+    }
+
     private RowMapper<Actor> actorRowMapper() {
         return (rs, rowNum) -> {
             Actor a = new Actor();
