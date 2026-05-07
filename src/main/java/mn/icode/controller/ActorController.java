@@ -2,9 +2,11 @@ package mn.icode.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,13 +34,14 @@ public class ActorController {
 
     @GetMapping("/actors/{id}")
     public ResponseEntity<Actor> getActorById(@PathVariable("id") int id) {
-       return actorRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return actorRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/actors/{id}/films")
     public ResponseEntity<List<Film>> getFilmsByActor(@PathVariable int id) {
         return ResponseEntity.ok(actorRepository.findFilmsByActorId(id));
     }
+
 
     @PutMapping 
     @RequestMapping("/actors/{id}")
@@ -52,5 +55,15 @@ public class ActorController {
             return actorRepository.findById(id)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/actors")
+    public ResponseEntity<Actor> createActor(@RequestBody Actor actor) {
+
+        if (actor.getFirstName() == null || actor.getFirstName().isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+        Actor created = actorRepository.create(actor);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 }

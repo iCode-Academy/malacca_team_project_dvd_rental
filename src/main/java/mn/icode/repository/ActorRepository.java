@@ -23,12 +23,12 @@ public class ActorRepository {
     public List<Actor> getActors() {
 
         String sql = """
-        SELECT 
-            actor_id,
-            first_name, last_name 
-        FROM actor
-        ORDER BY actor_id ASC
-        """;
+                SELECT
+                    actor_id,
+                    first_name, last_name
+                FROM actor
+                ORDER BY actor_id ASC
+                """;
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Actor actor = new Actor();
@@ -42,21 +42,20 @@ public class ActorRepository {
     public List<Film> findFilmsByActorId(int actorId) {
 
         String sql = """
-            SELECT f.film_id, f.title, f.rating, f.rental_rate
-            FROM film f
-            INNER JOIN film_actor fa ON f.film_id = fa.film_id
-            WHERE fa.actor_id = ?
-            ORDER BY f.title ASC
-        """;
+                    SELECT f.film_id, f.title, f.rating, f.rental_rate
+                    FROM film f
+                    INNER JOIN film_actor fa ON f.film_id = fa.film_id
+                    WHERE fa.actor_id = ?
+                    ORDER BY f.title ASC
+                """;
 
         return jdbcTemplate.query(sql, filmRowMapper(), actorId);
     }
 
     public Optional<Actor> findById(int id) {
-        String sql
-                = """
+        String sql = """
                 select actor_id, first_name, last_name
-                from actor 
+                from actor
                 where actor_id = ?
                 """;
         try {
@@ -76,15 +75,6 @@ public class ActorRepository {
                 """;
             return jdbcTemplate.update(sql, 
                     actor.getFirstName(), actor.getLastName(), id);
-    }
-
-    public Actor create(Actor actor){
-        String sql = """
-                insert into actor (first_name, last_name)
-                values (?, ?)
-                """;
-        jdbcTemplate.update(sql, actor.getFirstName(), actor.getLastName());
-        return actor;
     }
 
     private RowMapper<Actor> actorRowMapper() {
@@ -107,4 +97,14 @@ public class ActorRepository {
             return f;
         };
     }
+
+    public Actor create(Actor actor) {
+        jdbcTemplate.update(
+                "INSERT INTO actor (first_name, last_name, last_update) VALUES (?, ?, NOW())",
+                actor.getFirstName(), actor.getLastName());
+        Integer newId = jdbcTemplate.queryForObject("SELECT currval('actor_actor_id_seq')", Integer.class);
+        actor.setActorId(newId);
+        return actor;
+    }
+
 }
