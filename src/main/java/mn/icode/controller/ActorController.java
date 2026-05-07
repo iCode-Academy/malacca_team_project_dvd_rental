@@ -8,6 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,4 +61,15 @@ public class ActorController {
                     .body("Cannot delete actor: still referenced by other records.");
         }
     }
+    
+    @PostMapping("/actors")
+    public ResponseEntity<Actor> createActor(@RequestBody Actor actor) {
+
+        if (actor.getFirstName() == null || actor.getFirstName().isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+        Actor created = actorRepository.create(actor);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
 }
