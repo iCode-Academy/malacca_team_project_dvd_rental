@@ -66,6 +66,14 @@ public class CategoryRepository {
         return category;
     }
 
+    public int update(int id,Category category){
+        String sql="""
+                update category set name = ?
+                where category_id = ?
+                """;
+        return jdbcTemplate.update(sql, category.getName(), id);
+    }
+
 
     // rowmappers   
     private RowMapper<Category> categoryRowMapper() {
