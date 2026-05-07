@@ -1,10 +1,12 @@
 package mn.icode.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,4 +59,18 @@ public class CategoryController {
         Category created = categoryRepository.create(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
+    
+    @DeleteMapping("/categories/dlt={id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable int id){
+        Optional category = categoryRepository.findCategoryById(id);
+        if(category == null){
+            return ResponseEntity.notFound().build();
+        }
+        int rows = categoryRepository.delete(id);
+        if (rows == 0) { 
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
+
 }
