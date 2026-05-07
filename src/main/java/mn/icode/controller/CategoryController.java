@@ -14,18 +14,18 @@ import mn.icode.repository.CategoryRepository;
 @Controller
 @RequestMapping("/api")
 public class CategoryController {
+
     private final CategoryRepository categoryRepository;
 
     public CategoryController(
-        CategoryRepository categoryRepository) {
+            CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 
-@GetMapping("/categories")
+    @GetMapping("/categories")
     public ResponseEntity<List<Category>> getCategories(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size
-
     ) {
         int offset = (page - 1) * size;
         return ResponseEntity.ok(categoryRepository.findAll(size, offset));

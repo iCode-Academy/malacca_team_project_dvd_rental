@@ -8,15 +8,14 @@ import org.springframework.stereotype.Repository;
 
 import mn.icode.model.Category;
 
-
 @Repository
 public class CategoryRepository {
-    
+
     private final JdbcTemplate jdbcTemplate;
 
     public CategoryRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }   
+    }
 
     public List<Category> findAll(int limit , int offset){
         String sql = """
@@ -32,7 +31,7 @@ public class CategoryRepository {
             Category c = new Category();
             c.setCategoryId(rs.getInt("category_id"));
             c.setName(rs.getString("name"));
-        
+
             return c;
         };
     }
