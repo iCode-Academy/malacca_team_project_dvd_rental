@@ -20,8 +20,7 @@ public class CategoryRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // find all categories
-    public List<Category> findAll(int limit, int offset) {
+    public List<Category> findAll(int limit , int offset){
         String sql = """
             SELECT  category_id, name
                 from category  
@@ -94,4 +93,5 @@ public class CategoryRepository {
             return c;
         };
     }
+
 }
