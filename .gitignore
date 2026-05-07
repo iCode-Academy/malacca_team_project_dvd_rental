@@ -26,4 +26,5 @@ replay_pid*
 target/
 classes/
 .vscode/
+target/
 application-local.properties
