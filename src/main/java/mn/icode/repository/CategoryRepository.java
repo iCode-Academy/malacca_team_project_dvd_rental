@@ -65,6 +65,13 @@ public class CategoryRepository {
         return category;
     }
 
+    public int delete(int id) {
+        String sql = """
+                    delete from category 
+                    where category_id = ?
+            """;
+        return jdbcTemplate.update(sql, id);
+    } 
     public int update(int id,Category category){
         String sql="""
                 update category set name = ?
