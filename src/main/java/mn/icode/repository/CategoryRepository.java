@@ -2,7 +2,6 @@ package mn.icode.repository;
 
 import java.util.List;
 
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
