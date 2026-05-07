@@ -2,8 +2,10 @@ package mn.icode.controller;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +59,21 @@ public class ActorController {
             .orElse(ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping("/actors/{id}")
+    public ResponseEntity<String> deleteActor(@PathVariable int id) {
+        try {
+            boolean deleted = actorRepository.deleteById(id);
+            if (deleted) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Cannot delete actor: still referenced by other records.");
+        }
+    }
+    
     @PostMapping("/actors")
     public ResponseEntity<Actor> createActor(@RequestBody Actor actor) {
 
@@ -66,4 +83,5 @@ public class ActorController {
         Actor created = actorRepository.create(actor);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
+
 }
