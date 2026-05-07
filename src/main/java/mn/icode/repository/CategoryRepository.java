@@ -20,8 +20,7 @@ public class CategoryRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // find all categories
-    public List<Category> findAll(int limit, int offset) {
+    public List<Category> findAll(int limit , int offset){
         String sql = """
             SELECT  category_id, name
                 from category  
@@ -82,15 +81,6 @@ public class CategoryRepository {
             c.setCategoryId(rs.getInt("category_id"));
             c.setName(rs.getString("name"));
 
-            return c;
-        };
-    }
-
-    private RowMapper<FilmTitle> filmsByCategoryRowMapper() {
-        return (rs, rowNumb) -> {
-            FilmTitle c = new FilmTitle();
-            c.setTitle(rs.getString("title"));
-            c.setReleaseYear(rs.getInt("release_year"));
             return c;
         };
     }

@@ -1,9 +1,13 @@
+# Copy this file to application-local.properties and set your own values.
+# application-local.properties is gitignored — your credentials stay local.
+
 spring.datasource.url=jdbc:postgresql://localhost:5432/dvdrental
 spring.datasource.username=postgres
 spring.datasource.password=postgres
+
 spring.datasource.driver-class-name=org.postgresql.Driver
 
 spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=none
 
-server.port =8080
+server.port=8080

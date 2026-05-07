@@ -67,7 +67,41 @@ public class ActorRepository {
 
     }
 
-    private RowMapper<Actor> actorRowMapper() {
+    public int update(int id, Actor actor){
+        String sql = """
+                UPDATE actor SET first_name = ?,
+                last_name = ? 
+                where actor_id = ?
+                """;
+            return jdbcTemplate.update(sql, 
+                    actor.getFirstName(), actor.getLastName(), id);
+    }
+
+    
+    public boolean deleteById(int id) {
+        jdbcTemplate.update("DELETE FROM film_actor WHERE actor_id = ?", id);
+        String sql = "DELETE FROM actor WHERE actor_id = ?";
+        int rowsAffected = jdbcTemplate.update(sql, id);
+        return rowsAffected > 0;
+    }
+
+   
+    public Actor create(Actor actor) {
+        jdbcTemplate.update(
+                "INSERT INTO actor (first_name, last_name, last_update) VALUES (?, ?, NOW())",
+
+                actor.getFirstName(), actor.getLastName());
+        Integer newId = jdbcTemplate.queryForObject("SELECT currval('actor_actor_id_seq')", Integer.class);
+        actor.setActorId(newId);
+        return actor;
+
+    }
+
+    /** 
+     * Private methods are down below
+     */
+
+     private RowMapper<Actor> actorRowMapper() {
         return (rs, rowNum) -> {
             Actor a = new Actor();
             a.setActorId(rs.getInt("actor_id"));
@@ -86,16 +120,5 @@ public class ActorRepository {
             f.setRatingRate(rs.getBigDecimal("rental_rate"));
             return f;
         };
-    }
-
-    public Actor create(Actor actor) {
-        jdbcTemplate.update(
-                "INSERT INTO actor (first_name, last_name, last_update) VALUES (?, ?, NOW())",
-
-                actor.getFirstName(), actor.getLastName());
-        Integer newId = jdbcTemplate.queryForObject("SELECT currval('actor_actor_id_seq')", Integer.class);
-        actor.setActorId(newId);
-        return actor;
-
     }
 }
