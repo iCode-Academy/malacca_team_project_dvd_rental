@@ -35,7 +35,5 @@ public class FilmController {
             @RequestParam(required = false) String title) {
         List<Film> results = filmRepository.search(title);
         return results.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(results);
-    }
-
-    
+    }    
 }
