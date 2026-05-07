@@ -59,7 +59,6 @@ public class ActorRepository {
                 from actor 
                 where actor_id = ?
                 """;
-        // return jdbcTemplate
         try {
             Actor actor = jdbcTemplate.queryForObject(sql, actorRowMapper(), id);
             return Optional.ofNullable(actor);
