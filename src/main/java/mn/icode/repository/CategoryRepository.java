@@ -72,6 +72,13 @@ public class CategoryRepository {
             """;
         return jdbcTemplate.update(sql, id);
     } 
+    public int update(int id,Category category){
+        String sql="""
+                update category set name = ?
+                where category_id = ?
+                """;
+        return jdbcTemplate.update(sql, category.getName(), id);
+    }
 
 
     // rowmappers   
@@ -84,4 +91,14 @@ public class CategoryRepository {
             return c;
         };
     }
+
+    private RowMapper<FilmTitle> filmsByCategoryRowMapper() {
+        return (rs, rowNumb) -> {
+            FilmTitle c = new FilmTitle();
+            c.setTitle(rs.getString("title"));
+            c.setReleaseYear(rs.getInt("release_year"));
+            return c;
+        };
+    }
+
 }

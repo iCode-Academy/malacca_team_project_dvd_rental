@@ -44,19 +44,18 @@ public class ActorController {
         return ResponseEntity.ok(actorRepository.findFilmsByActorId(id));
     }
 
-
-    @PutMapping 
+    @PutMapping
     @RequestMapping("/actors/{id}")
     public ResponseEntity<Actor> updateActor(
-        @PathVariable("id") int id,
-        @RequestBody Actor actor){
-            int rows = actorRepository.update(id, actor);
-            if(rows==0){
-                return ResponseEntity.notFound().build();
-            }
-            return actorRepository.findById(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+            @PathVariable("id") int id,
+            @RequestBody Actor actor) {
+        int rows = actorRepository.update(id, actor);
+        if (rows == 0) {
+            return ResponseEntity.notFound().build();
+        }
+        return actorRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/actors/{id}")
@@ -73,7 +72,7 @@ public class ActorController {
                     .body("Cannot delete actor: still referenced by other records.");
         }
     }
-    
+
     @PostMapping("/actors")
     public ResponseEntity<Actor> createActor(@RequestBody Actor actor) {
 
