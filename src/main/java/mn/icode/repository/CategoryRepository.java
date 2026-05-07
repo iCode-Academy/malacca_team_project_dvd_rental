@@ -20,6 +20,7 @@ public class CategoryRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // find all categories
     public List<Category> findAll(int limit, int offset) {
         String sql = """
             SELECT  category_id, name
@@ -30,22 +31,12 @@ public class CategoryRepository {
         return jdbcTemplate.query(sql, categoryRowMapper(), limit, offset);
     }
 
-    private RowMapper<Category> categoryRowMapper() {
-        return (rs, rowNumb) -> {
-            Category c = new Category();
-            c.setCategoryId(rs.getInt("category_id"));
-            c.setName(rs.getString("name"));
-
-            return c;
-        };
-    }
-    
     // find category id
     public Optional<Category> findCategoryById(int filmId) {
         String sql = """
-                select category_id, name from category
-                        where category_id = ?
-                """;
+            select category_id, name from category
+            where category_id = ?
+            """;
         try {
             Category x = jdbcTemplate.queryForObject(sql, categoryRowMapper(), filmId);
             return Optional.ofNullable(x);
@@ -65,6 +56,27 @@ public class CategoryRepository {
         return jdbcTemplate.query(sql, filmsByCategoryRowMapper(), categoryId);
     }
 
+    public Category create(Category category) {
+        String sql = """
+                insert into category (category_id, name)
+                values (?, ?)
+                """;
+
+        jdbcTemplate.update(sql, category.getCategoryId(), category.getName());
+        return category;
+    }
+
+
+    // rowmappers   
+    private RowMapper<Category> categoryRowMapper() {
+        return (rs, rowNumb) -> {
+            Category c = new Category();
+            c.setCategoryId(rs.getInt("category_id"));
+            c.setName(rs.getString("name"));
+
+            return c;
+        };
+    }
 
     private RowMapper<FilmTitle> filmsByCategoryRowMapper() {
         return (rs, rowNumb) -> {
