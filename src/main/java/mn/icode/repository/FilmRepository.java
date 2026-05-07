@@ -1,5 +1,6 @@
 package mn.icode.repository;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,7 +96,8 @@ public class FilmRepository {
             f.setRentalRate(rs.getBigDecimal("rental_rate"));
             try {
                 f.setRentalCount(rs.getInt("rental_count"));
-            } catch (Exception ignored) {
+            } catch (SQLException ex) {
+                System.out.println(ex.toString());
             }
             return f;
         };

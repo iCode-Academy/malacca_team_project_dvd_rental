@@ -67,6 +67,17 @@ public class ActorRepository {
 
     }
 
+    public int update(int id, Actor actor){
+        String sql = """
+                UPDATE actor SET first_name = ?,
+                last_name = ? 
+                where actor_id = ?
+                """;
+            return jdbcTemplate.update(sql, 
+                    actor.getFirstName(), actor.getLastName(), id);
+    }
+
+    
     public boolean deleteById(int id) {
         jdbcTemplate.update("DELETE FROM film_actor WHERE actor_id = ?", id);
         String sql = "DELETE FROM actor WHERE actor_id = ?";
@@ -110,5 +121,4 @@ public class ActorRepository {
             return f;
         };
     }
-
 }
