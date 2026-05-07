@@ -38,17 +38,25 @@ public class FilmController {
         List<Film> results = filmRepository.search(title);
         return results.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(results);
     }
-     @GetMapping("/films/{id}")
+
+    
+    @GetMapping("/films/not-in-inventory")
+    public ResponseEntity<List<Film>> getNonInventory(@RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        int offset = (page - 1) * size;
+        return ResponseEntity.ok(filmRepository.notExist(size, offset));
+    }
+
+    @GetMapping("/films/{id}")
     public ResponseEntity<Film> getFilmById(@PathVariable("id") int id) {
         return filmRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-     @GetMapping("/films/top-rented")
+    @GetMapping("/films/top-rented")
     public ResponseEntity<List<RentalCount>> getTopFilms(
             @RequestParam(defaultValue = "10") int limit) {
         return ResponseEntity.ok(filmRepository.findTopRented(limit));
     }
 }
-
