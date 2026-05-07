@@ -1,0 +1,6 @@
+# Copy this file to application-local.properties and set your own values.
+# application-local.properties is gitignored — your credentials stay local.
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/dvdrental
+spring.datasource.username=postgres
+spring.datasource.password=postgres
