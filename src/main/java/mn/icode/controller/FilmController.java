@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,4 +60,30 @@ public class FilmController {
             @RequestParam(defaultValue = "10") int limit) {
         return ResponseEntity.ok(filmRepository.findTopRented(limit));
     }
+    // @DeleteMapping("/films/{id}")
+    // public  ResponseEntity<Optional<Film>> deletefilm(@PathVariable int id){
+    //     Optional <Film> film = filmRepository.findById(id);
+    //     if (film == null){
+    //         return ResponseEntity.notFound().build();
+    //     }  
+    //     filmRepository.delete(id);
+    //     return ResponseEntity.ok(film);
+    // }
+
+@DeleteMapping("/films/{id}")
+public ResponseEntity<?> deleteFilm(@PathVariable int id) {
+    try {
+        if (filmRepository.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        filmRepository.delete(id);
+        return ResponseEntity.noContent().build();
+    } catch (Exception e) {
+        // Энд алдааг барьж авна
+        return ResponseEntity.status(500)
+            .body("Энэ кино өөр өгөгдөлтэй холбоотой тул устгах боломжгүй (FK Constraint).");
+    }
 }
+
+}
+

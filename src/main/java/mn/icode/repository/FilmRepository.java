@@ -80,7 +80,12 @@ public class FilmRepository {
             return Optional.empty();
         }
     }
-
+    public int delete(int id) {
+        String sql="""
+                delete from film where film_id ?
+                """;
+        return jdbcTemplate.update(sql,id);
+    }
     private RowMapper<RentalCount> rentalRowMapper() {
         return (rs, rowNum) -> {
             RentalCount f = new RentalCount();
