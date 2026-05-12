@@ -1,33 +1,126 @@
 <!DOCTYPE html>
 <html lang="mn">
+
 <head>
     <meta charset="UTF-8">
     <title>Film Catalog</title>
     <style>
-        * { box-sizing: border-box; }
-        body        { font-family: sans-serif; max-width: 1100px; margin: 0 auto; padding: 20px; }
-        h2          { border-bottom: 2px solid #333; padding-bottom: 6px; }
-        .film-card  { border: 1px solid #ddd; padding: 12px; margin: 6px 0;
-                      border-radius: 6px; cursor: pointer; }
-        .film-card:hover { background: #f5f5f5; }
-        .rating     { display: inline-block; background: #333; color: white;
-                      padding: 2px 8px; border-radius: 3px; font-size: 0.8em; }
-        .price      { color: #27ae60; font-weight: bold; }
-        .actor-card { display: inline-block; border: 1px solid #ccc;
-                      padding: 8px 12px; margin: 4px; border-radius: 4px; }
-        .error      { color: red; background: #fee; padding: 10px; border-radius: 4px; }
-        .loading    { color: #888; font-style: italic; }
-        .filter-btn { padding: 6px 14px; margin: 3px; cursor: pointer;
-                      border: 1px solid #999; border-radius: 4px; }
-        .filter-btn.active { background: #333; color: white; border-color: #333; }
-        table       { border-collapse: collapse; width: 100%; }
-        th, td      { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
-        th          { background: #f0f0f0; }
-        button      { padding: 8px 16px; margin: 4px; cursor: pointer; }
-        input       { padding: 8px; margin: 4px; border: 1px solid #ccc; border-radius: 4px; width: 250px; }
-        #detail-panel { border: 2px solid #333; padding: 16px; border-radius: 6px;
-                        margin: 12px 0; display: none; }</style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 6px;
+        }
+
+        .film-card {
+            border: 1px solid #ddd;
+            padding: 12px;
+            margin: 6px 0;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .film-card:hover {
+            background: #f5f5f5;
+        }
+
+        .rating {
+            display: inline-block;
+            background: #333;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+        }
+
+        .price {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .actor-card {
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            margin: 4px;
+            border-radius: 4px;
+        }
+
+        .error {
+            color: red;
+            background: #fee;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .loading {
+            color: #888;
+            font-style: italic;
+        }
+
+        .filter-btn {
+            padding: 6px 14px;
+            margin: 3px;
+            cursor: pointer;
+            border: 1px solid #999;
+            border-radius: 4px;
+        }
+
+        .filter-btn.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #f0f0f0;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin: 4px;
+            cursor: pointer;
+        }
+
+        input {
+            padding: 8px;
+            margin: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 250px;
+        }
+
+        #detail-panel {
+            border: 2px solid #333;
+            padding: 16px;
+            border-radius: 6px;
+            margin: 12px 0;
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
 
     <!-- Issue #2: Film List -->
@@ -79,25 +172,26 @@
     <script type="module" src="./dist/api.js"></script>
 
     <!-- Issue #2 -->
-<!--    <script type="module" src="./dist/films.js"></script>-->
+    <!--    <script type="module" src="./dist/films.js"></script>-->
 
-<!--    &lt;!&ndash; Issue #3 &ndash;&gt;-->
-<!--    <script type="module" src="./dist/search.js"></script>-->
+    <!-- Issue #3 -->
+    <!-- <script type="module" src="dist/search.js"></script> -->
 
-<!--    &lt;!&ndash; Issue #4 &ndash;&gt;-->
-<!--    <script type="module" src="./dist/detail.js"></script>-->
+    <!-- Issue #4 -->
+    <!-- <script type="module" src="dist/detail.js"></script> -->
 
-<!--    &lt;!&ndash; Issue #5 &ndash;&gt;-->
-<!--    <script type="module" src="./dist/filter.js"></script>-->
+    <!--     Issue #5 -->
+    <!--    <script type="module" src="./dist/filter.js"></script>-->
 
-<!--    &lt;!&ndash; Issue #6 &ndash;&gt;-->
-<!--    <script type="module" src="./dist/stats.js"></script>-->
+    <!-- Issue #6 -->
+    <!-- <script type="module" src="dist/stats.js"></script> -->
 
     <!-- Issue #7 -->
-    <script type="module" src="./dist/actors.js"></script>
+    <!-- <script type="module" src="dist/actors.js"></script> -->
 
     <!-- Issue #8 -->
-<!--    <script type="module" src="./dist/status.js"></script>-->
+    <!-- <script type="module" src="dist/status.js"></script> -->
 
 </body>
+
 </html>
