@@ -4,7 +4,7 @@ export interface Film {
     film_id:     number;
     title:       string;
     rating:      string;
-    rental_rate: number;
+    rentalRate: number;
     description?: string;
 }
 
@@ -15,11 +15,9 @@ export interface FilmDetail extends Film {
 }
 
 export interface Actor {
-    lastName: any;
-    firstName: any;
-    actor_id:   number;
-    first_name: string;
-    last_name:  string;
+    lastName: string;
+    firstName: string;
+    actorId:   number;
 }
 
 export interface Category {

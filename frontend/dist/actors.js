@@ -6,7 +6,7 @@ async function loadActors() {
     console.log(actors);
     container.innerHTML = actors.map(actor => `
         <span class="actor-card">
-            ${actor.firstName} ${actor.lastName}
+            ${actor.actorId} ${actor.firstName} ${actor.lastName} 
         </span>
     `).join("");
 }
