@@ -15,6 +15,8 @@ export interface FilmDetail extends Film {
 }
 
 export interface Actor {
+    lastName: any;
+    firstName: any;
     actor_id:   number;
     first_name: string;
     last_name:  string;

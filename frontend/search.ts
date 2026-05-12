@@ -12,7 +12,7 @@ async function searchFilms(title: string): Promise<void> {
         return;
     }
 
-    container.innerHTML = films.map(film => `
+    container.innerHTML = films.map((film: { rating: any; title: any; rental_rate: number; }) => `
         <div class="film-card">
             <span class="rating">${film.rating}</span>
             <strong>${film.title}</strong>
