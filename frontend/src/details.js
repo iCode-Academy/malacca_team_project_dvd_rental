@@ -1,12 +1,11 @@
-import { apiFetch, FilmDetail } from "./api.js";
-
-async function showFilmDetail(id: number): Promise<void> {
-    const panel = document.getElementById("detail-panel")!;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const api_js_1 = require("./api.js");
+async function showFilmDetail(id) {
+    const panel = document.getElementById("detail-panel");
     panel.style.display = "block";
     panel.innerHTML = '<p class="loading">Loading detail...</p>';
-
-    const film = await apiFetch<FilmDetail>(`/api/films/${id}`);
-
+    const film = await (0, api_js_1.apiFetch)(`/api/films/${id}`);
     panel.innerHTML = `
         <button onclick="document.getElementById('detail-panel').style.display='none'">✕ Хаах</button>
         <h3><span class="rating">${film.rating}</span> ${film.title}</h3>
@@ -19,12 +18,14 @@ async function showFilmDetail(id: number): Promise<void> {
         </table>
     `;
 }
-
 // Film card дарахад — event delegation ашиглана
-document.getElementById("film-list")!
+document.getElementById("film-list")
     .addEventListener("click", (e) => {
-        const card = (e.target as HTMLElement).closest(".film-card");
-        if (!card) return;
-        const id = Number(card.getAttribute("data-id"));
-        if (id) showFilmDetail(id);
-    });
+    const card = e.target.closest(".film-card");
+    if (!card)
+        return;
+    const id = Number(card.getAttribute("data-id"));
+    if (id)
+        showFilmDetail(id);
+});
+//# sourceMappingURL=details.js.map
