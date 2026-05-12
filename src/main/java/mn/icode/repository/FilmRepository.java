@@ -32,11 +32,11 @@ public class FilmRepository {
     }
 
     public List<Film> search(String title) {
-        String sql = """
-                SELECT  film_id, title, rating, rental_rate
-                from film
-                where title like CONCAT('%', ?, '%')
-                """;
+       String sql = """
+            SELECT film_id, title, rating, rental_rate
+            FROM film
+            WHERE LOWER(title) LIKE CONCAT('%', LOWER(?), '%')
+            """;
         return jdbcTemplate.query(sql, filmRowMapper(), title);
     }
 
