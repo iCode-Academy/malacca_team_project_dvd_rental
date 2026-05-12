@@ -28,4 +28,5 @@ classes/
 .vscode/
 target/
 application-local.properties
+
 node_modules/
