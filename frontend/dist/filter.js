@@ -25,7 +25,7 @@ async function loadByRating(rating) {
         <div class="film-card">
             <span class="rating">${film.rating}</span>
             <strong>${film.title}</strong>
-            <span class="price">$${film.rental_rate.toFixed(2)}</span>
+            <span class="price">$${film.rentalRate.toFixed(2)}</span>
         </div>
     `).join("");
 }
