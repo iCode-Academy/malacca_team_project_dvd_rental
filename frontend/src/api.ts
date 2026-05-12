@@ -4,7 +4,7 @@ export interface Film {
     film_id:     number;
     title:       string;
     rating:      string;
-    rental_rate: number;
+    rentalRate: number;
     description?: string;
 }
 
