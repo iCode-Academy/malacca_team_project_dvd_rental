@@ -1,10 +1,8 @@
-// ── Interfaces — Spring Boot JPA API-ийн JSON хэлбэр ─────────────────────
-
 export interface Film {
     film_id:     number;
     title:       string;
     rating:      string;
-    rentalRate: number;
+    rentalRate:  number;
     description?: string;
 }
 
@@ -15,7 +13,7 @@ export interface FilmDetail extends Film {
 }
 
 export interface Actor {
-    lastName: string;
+    lastName:  string;
     firstName: string;
     actorId:   number;
 }
@@ -30,8 +28,6 @@ export interface CategoryStats extends Category {
     avg_rental_rate: number;
     total_rentals:   number;
 }
-
-// ── Generic fetch helper ──────────────────────────────────────────────────
 
 export const API_BASE = "http://localhost:8080";
 
