@@ -19,9 +19,5 @@ public class Inventory {
 
     public void setInventoryId(Integer inventoryId) {
         this.inventoryId = inventoryId;
-    }
-
-    
-
-    
+    }    
 }

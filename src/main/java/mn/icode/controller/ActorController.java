@@ -76,5 +76,4 @@ public class ActorController {
         Actor created = actorRepository.create(actor);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
-
 }
