@@ -8,3 +8,14 @@
   },
   "include": ["src/**/*"]
 }
+// {
+//   "compilerOptions": {
+//     "target": "ES2020",
+//     "module": "ESNext",         // <--- Change this from 'commonjs'
+//     "moduleResolution": "node", // Add this to help TS find your files
+//     "strict": true,
+//     "outDir": "./dist",
+//     "rootDir": "./src"
+//   },
+//   "include": ["src/**/*"]
+// }
