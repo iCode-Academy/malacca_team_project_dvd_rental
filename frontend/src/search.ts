@@ -6,17 +6,18 @@ async function searchFilms(title: string): Promise<void> {
 
     const params = new URLSearchParams({ title });
     const films = await apiFetch<Film[]>(`/api/films/search?${params}`);
+    //const films = await apiFetch<Film[]>(`http://localhost:5500/api/films/search?${params}`);
 
     if (films.length === 0) {
         container.innerHTML = `<p>"${title}" нэртэй кино олдсонгүй.</p>`;
         return;
     }
 
-    container.innerHTML = films.map((film: { rating: any; title: any; rental_rate: number; }) => `
+    container.innerHTML = films.map((film: { rating: any; title: any; rentalRate: number; }) => `
         <div class="film-card">
             <span class="rating">${film.rating}</span>
             <strong>${film.title}</strong>
-            <span class="price">$${film.rental_rate.toFixed(2)}</span>
+            <span class="price">$${film.rentalRate.toFixed(2)}</span>
         </div>
     `).join("");
 }
