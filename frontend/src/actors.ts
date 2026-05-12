@@ -5,11 +5,10 @@ async function loadActors(): Promise<void> {
     container.innerHTML = '<p class="loading">Loading...</p>';
 
     const actors = await apiFetch<Actor[]>("/api/actors");
-    console.log(actors);
 
     container.innerHTML = actors.map(actor => `
         <span class="actor-card">
-            ${actor.firstName} ${actor.lastName}
+            ${actor.actorId} ${actor.firstName} ${actor.lastName} 
         </span>
     `).join("");
 }

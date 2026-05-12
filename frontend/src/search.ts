@@ -6,7 +6,6 @@ async function searchFilms(title: string): Promise<void> {
 
     const params = new URLSearchParams({ title });
     const films = await apiFetch<Film[]>(`/api/films/search?${params}`);
-    //const films = await apiFetch<Film[]>(`http://localhost:5500/api/films/search?${params}`);
 
     if (films.length === 0) {
         container.innerHTML = `<p>"${title}" нэртэй кино олдсонгүй.</p>`;

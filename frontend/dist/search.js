@@ -4,7 +4,6 @@ async function searchFilms(title) {
     container.innerHTML = '<p class="loading">Хайж байна...</p>';
     const params = new URLSearchParams({ title });
     const films = await apiFetch(`/api/films/search?${params}`);
-    //const films = await apiFetch<Film[]>(`http://localhost:5500/api/films/search?${params}`);
     if (films.length === 0) {
         container.innerHTML = `<p>"${title}" нэртэй кино олдсонгүй.</p>`;
         return;
