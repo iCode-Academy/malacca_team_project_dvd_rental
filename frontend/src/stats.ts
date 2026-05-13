@@ -4,7 +4,7 @@ async function loadCategoryStats(): Promise<void> {
     const container = document.getElementById("stats-table")!;
     container.innerHTML = '<p class="loading">Loading...</p>';
 
-    const stats = await apiFetch<CategoryStats[]>("/api/stats/categories");
+    const stats = await apiFetch<CategoryStats[]>("/api/categories/stats");
 
     container.innerHTML = `
         <table>
