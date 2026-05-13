@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import mn.icode.model.Category;
+import mn.icode.model.FilmStats;
 import mn.icode.model.FilmTitle;
 import mn.icode.repository.CategoryRepository;
 
@@ -49,6 +50,12 @@ public class CategoryController {
             @PathVariable("id") int categoryId) {
         List<FilmTitle> films = categoryRepository.filmsByCategory(categoryId);
         return ResponseEntity.ok(films);
+    }
+
+    @GetMapping("/categories/stats")
+    public ResponseEntity<List<FilmStats>> categoryStats() {
+        List<FilmStats> fs = categoryRepository.categoryStats();
+        return ResponseEntity.ok(fs);
     }
 
     @PostMapping
