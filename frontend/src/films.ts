@@ -17,13 +17,6 @@ async function loadFilms(): Promise<void> {
     }
 }
 
-// async function loadFilms(): Promise<void> {
-//     const container = document.getElementById("film-list")!;
-//     container.innerHTML = '<p class="loading">Loading...</p>';
-
-//     const films = await apiFetch<Film[]>("/api/films");
-//     renderFilmCards(films, container);
-// }
 
 function renderFilmCards(films: Film[], container: HTMLElement): void {
     if (films.length === 0) {
