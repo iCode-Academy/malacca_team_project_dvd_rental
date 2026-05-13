@@ -1,29 +1,29 @@
 import { apiFetch, Film } from "./api.js";
 
 // films.ts дотор:
-// import { showLoading, showSuccess, showError } from "./status.js";
-
-// async function loadFilms(): Promise<void> {
-//     showLoading("Film жагсаалт татаж байна...");
-//      const container = document.getElementById("film-list")!;
-//      container.innerHTML = " ";
-//     try {
-       
-//         const films = await apiFetch<Film[]>("/api/films");
-//         renderFilmCards(films, container);
-//         showSuccess(`${films.length} кино ачааллав.`);
-//     } catch (err) {
-//         showError(`Film татахад алдаа гарлаа: ${err}`);
-//     }
-// }
+import { showLoading, showSuccess, showError } from "./status.js";
 
 async function loadFilms(): Promise<void> {
-    const container = document.getElementById("film-list")!;
-    container.innerHTML = '<p class="loading">Loading...</p>';
-
-    const films = await apiFetch<Film[]>("/api/films");
-    renderFilmCards(films, container);
+    showLoading("Film жагсаалт татаж байна...");
+     const container = document.getElementById("film-list")!;
+     container.innerHTML = " ";
+    try {
+       
+        const films = await apiFetch<Film[]>("/api/films");
+        renderFilmCards(films, container);
+        showSuccess(`${films.length} кино ачааллав.`);
+    } catch (err) {
+        showError(`Film татахад алдаа гарлаа: ${err}`);
+    }
 }
+
+// async function loadFilms(): Promise<void> {
+//     const container = document.getElementById("film-list")!;
+//     container.innerHTML = '<p class="loading">Loading...</p>';
+
+//     const films = await apiFetch<Film[]>("/api/films");
+//     renderFilmCards(films, container);
+// }
 
 function renderFilmCards(films: Film[], container: HTMLElement): void {
     if (films.length === 0) {
