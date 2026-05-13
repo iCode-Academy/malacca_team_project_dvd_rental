@@ -1,13 +1,13 @@
 package mn.icode.model;
 
-public class FilmStats {
-    private String category;
+public class CategoryStats {
+    private String name;
     private Integer filmCount;
     private Double aveRentRate;
     private Integer totalRentals;
 
-    public String getCategory() {
-        return category;
+    public String getName() {
+        return name;
     }
 
     public Integer getFilmCount() {
@@ -22,8 +22,8 @@ public class FilmStats {
         return totalRentals;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setFilmCount(Integer filmCount) {
