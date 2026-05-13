@@ -5,7 +5,7 @@ async function loadCategoryStats(): Promise<void> {
     container.innerHTML = '<p class="loading">Loading...</p>';
 
     const stats = await apiFetch<CategoryStats[]>("/api/categories/stats");
-
+    console.log(stats)
     container.innerHTML = `
         <table>
             <thead>
@@ -20,9 +20,9 @@ async function loadCategoryStats(): Promise<void> {
                 ${stats.map(s => `
                     <tr>
                         <td>${s.name}</td>
-                        <td>${s.film_count}</td>
-                        <td>$${s.avg_rental_rate.toFixed(2)}</td>
-                        <td>${s.total_rentals.toLocaleString()}</td>
+                        <td>${s.filmCount}</td>
+                        <td>${Number(s.aveRentRate)}</td>
+                        <td>${(s.totalRentals ?? 0).toLocaleString()}</td>
                     </tr>
                 `).join("")}
             </tbody>

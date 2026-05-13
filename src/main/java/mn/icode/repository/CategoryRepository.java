@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import mn.icode.model.Category;
-import mn.icode.model.FilmStats;
+import mn.icode.model.CategoryStats;
 import mn.icode.model.FilmTitle;
 
 @Repository
@@ -56,9 +56,9 @@ public class CategoryRepository {
         return jdbcTemplate.query(sql, filmsByCategoryRowMapper(), categoryId);
     }
 
-    public List<FilmStats> categoryStats() {
+    public List<CategoryStats> categoryStats() {
         String sql = """
-                select c."name" as category, COUNT(f.film_id) as film_count, round(AVG(f.rental_rate), 2) as average_rental_rate, COUNT(r.rental_id) AS total_rentals 
+                select c."name" as name, COUNT(f.film_id) as film_count, round(AVG(f.rental_rate), 2) as average_rental_rate, COUNT(r.rental_id) AS total_rentals 
                 from category c
                 inner join film_category fc on c.category_id = fc.category_id
                 inner join film f on f.film_id = fc.film_id
@@ -132,10 +132,10 @@ public class CategoryRepository {
         };
     }
 
-    private RowMapper<FilmStats> categoryStatsRowMapper() {
+    private RowMapper<CategoryStats> categoryStatsRowMapper() {
         return (rs, rowNumb) -> {
-            FilmStats fs = new FilmStats();
-            fs.setCategory(rs.getString("category"));
+            CategoryStats fs = new CategoryStats();
+            fs.setName(rs.getString("name"));
             fs.setFilmCount(rs.getInt("film_count"));
             fs.setAveRentRate(rs.getDouble("average_rental_rate"));
             fs.setTotalRentals(rs.getInt("total_rentals"));

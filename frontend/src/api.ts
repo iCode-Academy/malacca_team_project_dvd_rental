@@ -21,14 +21,14 @@ export interface Actor {
 }
 
 export interface Category {
-    category_id: number;
+    categoryId: number;
     name:        string;
 }
 
 export interface CategoryStats extends Category {
-    film_count:      number;
-    avg_rental_rate: number;
-    total_rentals:   number;
+    filmCount:      number;
+    aveRentRate: number;
+    totalRentals:   number;
 }
 
 // ── Generic fetch helper ──────────────────────────────────────────────────
