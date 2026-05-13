@@ -67,7 +67,12 @@ public class CategoryController {
         Category created = categoryRepository.create(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
-
+      @GetMapping("/categories/search")
+    public ResponseEntity<List<Category>> search(
+            @RequestParam(required = false) String name) {
+        List<Category> results = categoryRepository.search(name);
+        return results.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(results);
+    }
     @DeleteMapping("/categories/dlt={id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
         Optional<Category> category = categoryRepository.findCategoryById(id);
@@ -81,7 +86,8 @@ public class CategoryController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/categories/{id}")
+
+    @PutMapping("/categories/{id:\\d+}")
     public ResponseEntity<Category> updateCategory(@PathVariable("id") int id, @RequestBody Category category) {
         int rows = categoryRepository.update(id, category);
         if (rows == 0) {

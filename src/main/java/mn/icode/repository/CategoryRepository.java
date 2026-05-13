@@ -95,6 +95,14 @@ public class CategoryRepository {
                 """;
         return jdbcTemplate.update(sql, category.getName(), id);
     }
+    public List<Category> search(String name) {
+       String sql = """
+            SELECT  name
+            FROM category
+            WHERE LOWER(name) LIKE CONCAT('%', LOWER(?), '%')
+            """;
+        return jdbcTemplate.query(sql, categoryNameRowMapper(), name);
+    }
 
     // rowmappers   
     private RowMapper<Category> categoryRowMapper() {
@@ -103,6 +111,14 @@ public class CategoryRepository {
             c.setCategoryId(rs.getInt("category_id"));
             c.setName(rs.getString("name"));
 
+            return c;
+        };
+    }
+
+    private RowMapper<Category> categoryNameRowMapper(){
+        return (rs, rowNumb) -> {
+            Category c = new Category();
+            c.setName(rs.getString("name"));
             return c;
         };
     }
