@@ -1,22 +1,26 @@
+/**
+ * Киноны объектуудыг HTML карт болгон хувиргана.
+ */
+// films.ts дотор:
+import { showLoading, showSuccess } from "./status.js";
 import { apiFetch } from "./api.js";
 /**
  * API-аас киноны жагсаалтыг татаж харуулна.
  */
 async function loadFilms() {
+    showLoading("Film жагсаалт татаж байна...");
     const container = document.getElementById("film-list");
     container.innerHTML = '<p class="loading">Уншиж байна...</p>';
     try {
         const films = await apiFetch("/api/films");
         renderFilmCards(films, container);
+        showSuccess(`${films.length} кино ачааллав.`);
     }
     catch (err) {
         console.error("Load Films Error:", err);
         container.innerHTML = `<p class="error">Алдаа гарлаа: ${err.message}</p>`;
     }
 }
-/**
- * Киноны объектуудыг HTML карт болгон хувиргана.
- */
 function renderFilmCards(films, container) {
     if (!films || films.length === 0) {
         container.innerHTML = "<p>Кино олдсонгүй.</p>";
@@ -31,7 +35,7 @@ function renderFilmCards(films, container) {
          Скриншот дээр "undefined" гэж гарч байсан учир ID-г авахдаа
          film_id эсвэл filmId аль алинтай нь ажиллахаар тохирууллаа.
         */
-        const id = film.film_id || film.filmId;
+        const id = film.filmId || film.filmId;
         html += `
             <div class="film-card" data-id="${id}">
                 <span class="rating">${film.rating}</span>

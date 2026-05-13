@@ -20,12 +20,12 @@ export interface Actor {
 
 export interface Category {
     categoryId: number;
-    name:       string;
+    name:        string;
 }
 
 export interface CategoryStats extends Category {
     filmCount:      number;
-    avgRentalRate:  number;
+    aveRentRate: number;
     totalRentals:   number;
 }
 
