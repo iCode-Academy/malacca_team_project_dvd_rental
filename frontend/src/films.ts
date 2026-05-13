@@ -1,12 +1,22 @@
 import { apiFetch, Film } from "./api.js";
 
-async function loadFilms(): Promise<void> {
-    const container = document.getElementById("film-list")!;
-    container.innerHTML = '<p class="loading">Loading...</p>';
+// films.ts дотор:
+import { showLoading, showSuccess, showError } from "./status.js";
 
-    const films = await apiFetch<Film[]>("/api/films");
-    renderFilmCards(films, container);
+async function loadFilms(): Promise<void> {
+    showLoading("Film жагсаалт татаж байна...");
+     const container = document.getElementById("film-list")!;
+     container.innerHTML = " ";
+    try {
+       
+        const films = await apiFetch<Film[]>("/api/films");
+        renderFilmCards(films, container);
+        showSuccess(`${films.length} кино ачааллав.`);
+    } catch (err) {
+        showError(`Film татахад алдаа гарлаа: ${err}`);
+    }
 }
+
 
 function renderFilmCards(films: Film[], container: HTMLElement): void {
     if (films.length === 0) {
