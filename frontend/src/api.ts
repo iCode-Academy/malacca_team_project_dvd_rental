@@ -1,5 +1,5 @@
 export interface Film {
-    film_id:     number;
+    filmId:      number;
     title:       string;
     rating:      string;
     rentalRate:  number;
@@ -7,9 +7,9 @@ export interface Film {
 }
 
 export interface FilmDetail extends Film {
-    rental_duration:  number;
-    replacement_cost: number;
-    special_features: string[];
+    rentalDuration:  number;
+    replacementCost: number;
+    specialFeatures: string | null;
 }
 
 export interface Actor {
@@ -19,14 +19,14 @@ export interface Actor {
 }
 
 export interface Category {
-    category_id: number;
-    name:        string;
+    categoryId: number;
+    name:       string;
 }
 
 export interface CategoryStats extends Category {
-    film_count:      number;
-    avg_rental_rate: number;
-    total_rentals:   number;
+    filmCount:      number;
+    avgRentalRate:  number;
+    totalRentals:   number;
 }
 
 export const API_BASE = "http://localhost:8080";
