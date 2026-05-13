@@ -9,7 +9,7 @@ async function showFilmDetail(id) {
         <h3><span class="rating">${film.rating}</span> ${film.title}</h3>
         <p>${film.description ?? "Тайлбар байхгүй."}</p>
         <table>
-            <tr><th>Rental Rate</th>  <td>$${film.rental_rate.toFixed(2)}</td></tr>
+            <tr><th>Rental Rate</th>  <td>$${film.rentalRate.toFixed(2)}</td></tr>
             <tr><th>Duration</th>     <td>${film.rental_duration} days</td></tr>
             <tr><th>Replace Cost</th> <td>$${film.replacement_cost.toFixed(2)}</td></tr>
             <tr><th>Features</th>     <td>${film.special_features?.join(", ") ?? "—"}</td></tr>
