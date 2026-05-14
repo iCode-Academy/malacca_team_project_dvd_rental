@@ -1,20 +1,41 @@
 package mn.icode.model;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "film")
 public class Film {
 
     public Film() {
     }
 
+    @Id
+    @Column(name = "film_id")
     private Integer filmId;
+
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "rating", columnDefinition = "mpaa_rating")
     private String rating;
+
+    @Column(name = "rental_rate")
     private BigDecimal rentalRate;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "rental_duration")
     private Integer rentalDuration;
+
+    @Column(name = "replacement_cost")
     private BigDecimal replacementCost;
+
+    @Column(name = "special_features")
     private String specialFeatures;
+
+    @Transient
     private int rentalCount;
 
     public Integer getFilmId() {
