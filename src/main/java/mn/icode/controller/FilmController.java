@@ -21,6 +21,7 @@ import mn.icode.repository.FilmRepository;
 @CrossOrigin(origins = "*")
 @RestController
 public class FilmController {
+
     private final FilmRepository filmRepository;
 
     public FilmController(FilmRepository filmRepository) {
@@ -39,20 +40,16 @@ public class FilmController {
 
     @GetMapping("/films/search")
     public ResponseEntity<List<Film>> search(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String rating,
-            @RequestParam(required = false) String keyword
+            @RequestParam(required = false, name = "title") String title,
+            @RequestParam(required = false, name = "rating") String rating,
+            @RequestParam(required = false, name = "keyword") String keyword
     ) {
-        // rating filter (from filter buttons)
         if (rating != null && !rating.isEmpty()) {
-            List<Film> results = filmRepository.findByRating(rating);
-            return results.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(results);
+            return ResponseEntity.ok(filmRepository.findByRating(rating));
         }
-        // title or keyword search
         String searchTerm = keyword != null ? keyword : title;
         if (searchTerm != null && !searchTerm.isEmpty()) {
-            List<Film> results = filmRepository.searchByKeyword(searchTerm);
-            return results.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(results);
+            return ResponseEntity.ok(filmRepository.searchByKeyword(searchTerm));
         }
         return ResponseEntity.badRequest().build();
     }
@@ -93,7 +90,7 @@ public class FilmController {
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.status(500)
-                .body("Энэ кино өөр өгөгдөлтэй холбоотой тул устгах боломжгүй.");
+                    .body("Энэ кино өөр өгөгдөлтэй холбоотой тул устгах боломжгүй.");
         }
     }
 }
