@@ -3,13 +3,16 @@ package mn.icode.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+import org.hibernate.Length;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 @Entity
-@Table(name = "film")
 public class Film {
-
-    public Film() {
-    }
-
     @Id
     @Column(name = "film_id")
     private Integer filmId;
@@ -23,20 +26,27 @@ public class Film {
     @Column(name = "rental_rate")
     private BigDecimal rentalRate;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "rental_duration")
     private Integer rentalDuration;
 
-    @Column(name = "replacement_cost")
-    private BigDecimal replacementCost;
-
-    @Column(name = "special_features")
     private String specialFeatures;
 
     @Transient
     private int rentalCount;
+    @Column(name = "length")
+    private Integer length;
+    @Column(name = "replacement_cost")
+    private java.math.BigDecimal replacementCost;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
 
     public Integer getFilmId() {
         return filmId;

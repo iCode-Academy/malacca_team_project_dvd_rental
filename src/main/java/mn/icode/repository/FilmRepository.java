@@ -38,4 +38,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             + "ORDER BY rental_count DESC "
             + "LIMIT :limit", nativeQuery = true)
     List<Film> findTopRented(@Param("limit") int limit);
+    List<Film> findByTitleContainingIgnoreCase(String keyword);
+    List<Film> findByRentalRateLessThan(Double maxRate);
+    List<Film> findByLengthBetween(Integer min, Integer max);
 }
