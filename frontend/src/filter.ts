@@ -1,4 +1,5 @@
 import { apiFetch, Film } from "./api.js";
+import { showLoading, showSuccess, showError } from "./status.js";
 
 const RATINGS = ["G", "PG", "PG-13", "R", "NC-17"];
 
@@ -26,15 +27,38 @@ async function loadByRating(rating: string): Promise<void> {
     const container = document.getElementById("filtered-films")!;
     container.innerHTML = '<p class="loading">Loading...</p>';
 
-    const films = await apiFetch<Film[]>(`/api/films?rating=${rating}`);
+    // const films = await apiFetch<Film[]>(`/api/films?rating=${rating}`);
 
-    container.innerHTML = films.map(film => `
-        <div class="film-card">
-            <span class="rating">${film.rating}</span>
-            <strong>${film.title}</strong>
-            <span class="price">$${film.rentalRate.toFixed(2)}</span>
-        </div>
-    `).join("");
+    // container.innerHTML = films.map(film => `
+    //     <div class="film-card">
+    //         <span class="rating">${film.rating}</span>
+    //         <strong>${film.title}</strong>
+    //         <span class="price">$${film.rentalRate.toFixed(2)}</span>
+    //     </div>
+    // `).join("");
+
+    showLoading(`${rating} ангиллын кинонуудыг татаж байна...`);
+
+    try {
+        const films = await apiFetch<Film[]>(`/api/films?rating=${rating}`);
+
+        // 2. Кинонуудыг карт хэлбэрээр дүрслэх
+        container.innerHTML = films.map(film => `
+            <div class="film-card">
+                <span class="rating">${film.rating}</span>
+                <strong>${film.title}</strong>
+                <span class="price">$${film.rentalRate.toFixed(2)}</span>
+            </div>
+        `).join("");
+
+        // 3. Амжилттай болсон мэдэгдэл
+        showSuccess(`${films.length} кино ачааллав.`);
+        
+    } catch (err) {
+        // 4. Алдаа гарвал харуулах
+        showError(`Кино татахад алдаа гарлаа: ${err}`);
+        container.innerHTML = `<p class="error">Өгөгдөл татахад алдаа гарлаа.</p>`;
+    }
 }
 
 buildFilterButtons();

@@ -5,6 +5,8 @@
 import { showLoading, showSuccess, showError } from "./status.js";
 import { apiFetch, Film } from "./api.js";
 
+
+
 /**
  * API-аас киноны жагсаалтыг татаж харуулна.
  */
