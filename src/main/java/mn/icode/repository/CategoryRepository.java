@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import mn.icode.model.Category;
+import mn.icode.model.CategoryStats;
 import mn.icode.model.FilmTitle;
 
 @Repository
@@ -20,7 +21,7 @@ public class CategoryRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Category> findAll(int limit , int offset){
+    public List<Category> findAll(int limit, int offset) {
         String sql = """
             SELECT  category_id, name
                 from category  
@@ -55,6 +56,20 @@ public class CategoryRepository {
         return jdbcTemplate.query(sql, filmsByCategoryRowMapper(), categoryId);
     }
 
+    public List<CategoryStats> categoryStats() {
+        String sql = """
+                select c."name" as name, COUNT(f.film_id) as film_count, round(AVG(f.rental_rate), 2) as average_rental_rate, COUNT(r.rental_id) AS total_rentals 
+                from category c
+                inner join film_category fc on c.category_id = fc.category_id
+                inner join film f on f.film_id = fc.film_id
+                left join inventory i on f.film_id = i.film_id
+                left join rental r on i.inventory_id = r.inventory_id
+                group by c."name"
+                order by total_rentals desc
+                """;
+        return jdbcTemplate.query(sql, categoryStatsRowMapper());
+    }
+
     public Category create(Category category) {
         String sql = """
                 insert into category (category_id, name)
@@ -71,15 +86,23 @@ public class CategoryRepository {
                     where category_id = ?
             """;
         return jdbcTemplate.update(sql, id);
-    } 
-    public int update(int id,Category category){
-        String sql="""
+    }
+
+    public int update(int id, Category category) {
+        String sql = """
                 update category set name = ?
                 where category_id = ?
                 """;
         return jdbcTemplate.update(sql, category.getName(), id);
     }
-
+    public List<Category> search(String name) {
+       String sql = """
+            SELECT  name
+            FROM category
+            WHERE LOWER(name) LIKE CONCAT('%', LOWER(?), '%')
+            """;
+        return jdbcTemplate.query(sql, categoryNameRowMapper(), name);
+    }
 
     // rowmappers   
     private RowMapper<Category> categoryRowMapper() {
@@ -92,12 +115,31 @@ public class CategoryRepository {
         };
     }
 
+    private RowMapper<Category> categoryNameRowMapper(){
+        return (rs, rowNumb) -> {
+            Category c = new Category();
+            c.setName(rs.getString("name"));
+            return c;
+        };
+    }
+
     private RowMapper<FilmTitle> filmsByCategoryRowMapper() {
         return (rs, rowNumb) -> {
             FilmTitle c = new FilmTitle();
             c.setTitle(rs.getString("title"));
             c.setReleaseYear(rs.getInt("release_year"));
             return c;
+        };
+    }
+
+    private RowMapper<CategoryStats> categoryStatsRowMapper() {
+        return (rs, rowNumb) -> {
+            CategoryStats fs = new CategoryStats();
+            fs.setName(rs.getString("name"));
+            fs.setFilmCount(rs.getInt("film_count"));
+            fs.setAveRentRate(rs.getDouble("average_rental_rate"));
+            fs.setTotalRentals(rs.getInt("total_rentals"));
+            return fs;
         };
     }
 

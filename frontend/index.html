@@ -8,6 +8,7 @@
         * {
             box-sizing: border-box;
         }
+        
 
         body {
             font-family: sans-serif;
@@ -21,12 +22,14 @@
             padding-bottom: 6px;
         }
 
+        /* ── Film Cards ── */
         .film-card {
             border: 1px solid #ddd;
             padding: 12px;
             margin: 6px 0;
             border-radius: 6px;
             cursor: pointer;
+            transition: background 0.2s;
         }
 
         .film-card:hover {
@@ -40,6 +43,7 @@
             padding: 2px 8px;
             border-radius: 3px;
             font-size: 0.8em;
+            margin-right: 8px;
         }
 
         .price {
@@ -47,19 +51,116 @@
             font-weight: bold;
         }
 
-        .actor-card {
-            display: inline-block;
-            border: 1px solid #ccc;
-            padding: 8px 12px;
-            margin: 4px;
-            border-radius: 4px;
+        /* ── Detail Panel ── */
+        #detail-panel {
+            display: none;
+            background: #fff;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 12px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .error {
-            color: red;
-            background: #fee;
-            padding: 10px;
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #e0e0dc;
+            padding-bottom: 12px;
+        }
+
+        .detail-header h3 {
+            flex: 1;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+            color: #1a1a1a;
+        }
+
+        .detail-close {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
             border-radius: 4px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .detail-close:hover {
+            background: #FAECE7;
+            border-color: #F0997B;
+            color: #993C1D;
+        }
+
+        .detail-desc {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 16px 0;
+            line-height: 1.6;
+        }
+
+        /* stat grid — 2 columns */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .detail-stat {
+            background: #f8f8f7;
+            border: 1px solid #e0e0dc;
+            border-radius: 8px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-size: 15px;
+            font-weight: 500;
+            color: #1a1a1a;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .detail-value.price {
+            color: #0F6E56;
+            font-size: 16px;
+        }
+
+        /* special features pills */
+        .feature-tag {
+            display: inline-block;
+            background: #EEEDFE;
+            color: #3C3489;
+            border: 0.5px solid #AFA9EC;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* ── Status & Loading ── */
+        .error {
+            color: #c00;
+            background: #fee;
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 4px solid #c00;
         }
 
         .loading {
@@ -67,6 +168,7 @@
             font-style: italic;
         }
 
+        /* ── Other Sections ── */
         .filter-btn {
             padding: 6px 14px;
             margin: 3px;
@@ -101,6 +203,14 @@
             padding: 8px 16px;
             margin: 4px;
             cursor: pointer;
+            border: 1px solid #999;
+            border-radius: 4px;
+            background: #f0f0f0;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #e0e0e0;
         }
 
         input {
@@ -111,12 +221,12 @@
             width: 250px;
         }
 
-        #detail-panel {
-            border: 2px solid #333;
-            padding: 16px;
-            border-radius: 6px;
-            margin: 12px 0;
-            display: none;
+        .actor-card {
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            margin: 4px;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -172,22 +282,22 @@
     <script type="module" src="./dist/api.js"></script>
 
     <!-- Issue #2 -->
-       <script type="module" src="./dist/films.js"></script>
+    <script type="module" src="./dist/films.js"></script>
 
     <!-- Issue #3 -->
     <script type="module" src="./dist/search.js"></script>
 
     <!-- Issue #4 -->
-    <!-- <script type="module" src="dist/detail.js"></script> -->
+    <script type="module" src="./dist/details.js"></script>
 
     <!--     Issue #5 -->
-       <script type="module" src="./dist/filter.js"></script>
+    <script type="module" src="./dist/filter.js"></script>
 
     <!-- Issue #6 -->
-    <!-- <script type="module" src="dist/stats.js"></script> -->
+    <script type="module" src="./dist/stats.js"></script>
 
     <!-- Issue #7 -->
-     <script type="module" src="./dist/actors.js"></script>
+    <script type="module" src="./dist/actors.js"></script>
 
     <!-- Issue #8 -->
     <script type="module" src="dist/status.js"></script>

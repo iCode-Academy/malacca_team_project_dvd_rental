@@ -5,7 +5,6 @@ export function showLoading(message = "Loading..."): void {
     statusEl.style.display  = "block";
     statusEl.style.background = "#f0f0f0";
     statusEl.style.color      = "#333";
-    
 }
 
 export function showSuccess(message: string): void {
@@ -21,7 +20,6 @@ export function showError(message: string): void {
     statusEl.style.display  = "block";
     statusEl.style.background = "#f8d7da";
     statusEl.style.color      = "#721c24";
-    setTimeout(() => {statusEl.style.display = "none"; }, 3000);
 }
 
 // Global error handler — catch хийгдээгүй Promise rejection барина
