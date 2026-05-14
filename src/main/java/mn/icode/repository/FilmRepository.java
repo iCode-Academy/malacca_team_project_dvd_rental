@@ -23,7 +23,7 @@ public class FilmRepository {
 
     public List<Film> findAll(int limit, int offset) {
         String sql = """
-                SELECT film_id, title, rating, rental_rate
+                SELECT film_id, title, rating, rental_rate, length
                 FROM film
                 ORDER BY title
                 LIMIT ? OFFSET ?
@@ -69,7 +69,6 @@ public class FilmRepository {
         return jdbcTemplate.query(sql, rentalRowMapper(), limit);
     }
 
-    // 1. ЗАСВАРЛАСАН: detail field-үүд нэмэгдсэн
     public Optional<Film> findById(int filmId) {
         String sql = """
                 SELECT film_id, title, rating, rental_rate,
@@ -86,13 +85,46 @@ public class FilmRepository {
         }
     }
 
-    // 2. ЗАСВАРЛАСАН: = дутуу байсан
     public int delete(int id) {
         String sql = "DELETE FROM film WHERE film_id = ?";
         return jdbcTemplate.update(sql, id);
     }
 
-    // 3. НЭМЭГДСЭН: detail-д зориулсан RowMapper
+    public List<Film> findByRating(String rating) {
+        String sql = """
+                Select film_id, title, rating, rental_rate
+                from film where rating = ?
+                """;
+        return jdbcTemplate.query(sql, filmRowMapper(), rating);
+    }
+
+    public List<Film> findBycase(String keyword) {
+        String sql = """
+                Select film_id, title, rating, rental_rate
+                from film
+                where lower(title) like lower (concat('%', ?, '%'))
+                """;
+        return jdbcTemplate.query(sql, filmRowMapper(), keyword);
+    }
+
+    public List<Film> findByRentalRate(Double maxRate) {
+        String sql = """
+                Select film_id, title, rating, rental_rate
+                from film
+                where rental_rate<?
+                """;
+        return jdbcTemplate.query(sql, filmRowMapper(), maxRate);
+    }
+
+    public List<Film> findByLengthBetween(Integer min, Integer max) {
+        String sql = """
+                Select film_id, title, rating, rental_rate
+                from film
+                where length between ? and ?
+                """;
+        return jdbcTemplate.query(sql, filmRowMapper(), min, max);
+    }
+
     private RowMapper<Film> filmDetailRowMapper() {
         return (rs, rowNum) -> {
             Film f = new Film();
@@ -130,8 +162,10 @@ public class FilmRepository {
             f.setFilmId(rs.getInt("film_id"));
             f.setTitle(rs.getString("title"));
             f.setRating(rs.getString("rating"));
+            f.setLength(rs.getInt("length")); 
             f.setRentalRate(rs.getBigDecimal("rental_rate"));
             return f;
         };
     }
+
 }

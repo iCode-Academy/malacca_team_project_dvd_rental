@@ -2,20 +2,42 @@ package mn.icode.model;
 
 import java.math.BigDecimal;
 
+import org.hibernate.Length;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Film {
-
-    public Film() {
-    }
-
+    @Id
+    @Column(name = "film_id")
     private Integer filmId;
     private String title;
     private String rating;
     private BigDecimal rentalRate;
-    private String description;
+
+    @Column(name = "rental_duration")
     private Integer rentalDuration;
-    private BigDecimal replacementCost;
+
     private String specialFeatures;
     private int rentalCount;
+    @Column(name = "length")
+    private Integer length;
+    @Column(name = "replacement_cost")
+    private java.math.BigDecimal replacementCost;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
 
     public Integer getFilmId() {
         return filmId;
