@@ -38,7 +38,6 @@ public class FilmController {
             @RequestParam(required = false, name = "keyword") String keyword
     ) {
         if (rating != null && !rating.isEmpty()) {
-            System.out.println("Rating called");
             return ResponseEntity.ok(filmRepository.findByRating(rating));
         }
         String searchTerm = keyword != null ? keyword : title;
