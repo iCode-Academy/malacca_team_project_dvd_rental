@@ -31,8 +31,7 @@ public class FilmController {
     @GetMapping("/films")
     public ResponseEntity<List<Film>> getFilms(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "20") int size
-    ) {
+            @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("title"));
         List<Film> films = filmRepository.findAll(pageable).getContent();
         return ResponseEntity.ok(films);
@@ -40,18 +39,31 @@ public class FilmController {
 
     @GetMapping("/films/search")
     public ResponseEntity<List<Film>> search(
-            @RequestParam(required = false, name = "title") String title,
-            @RequestParam(required = false, name = "rating") String rating,
-            @RequestParam(required = false, name = "keyword") String keyword
-    ) {
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String rating,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Double maxRate,
+            @RequestParam(required = false) Integer minLength,
+            @RequestParam(required = false) Integer maxLength) {
         if (rating != null && !rating.isEmpty()) {
             return ResponseEntity.ok(filmRepository.findByRating(rating));
         }
-        String searchTerm = keyword != null ? keyword : title;
+
+        String searchTerm = (keyword != null) ? keyword : title;
         if (searchTerm != null && !searchTerm.isEmpty()) {
             return ResponseEntity.ok(filmRepository.searchByKeyword(searchTerm));
         }
-        return ResponseEntity.badRequest().build();
+
+        if (maxRate != null) {
+            System.out.println("Max rate joined");
+            return ResponseEntity.ok(filmRepository.findByRentalRateLessThan(maxRate));
+        }
+
+        if (minLength != null && maxLength != null) {
+            return ResponseEntity.ok(filmRepository.findByLengthBetween(minLength, maxLength));
+        }
+
+        return ResponseEntity.ok(filmRepository.findAll());
     }
 
     @GetMapping("/films/by-duration")
