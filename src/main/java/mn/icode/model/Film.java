@@ -1,5 +1,6 @@
 package mn.icode.model;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 import org.hibernate.Length;
@@ -15,14 +16,22 @@ public class Film {
     @Id
     @Column(name = "film_id")
     private Integer filmId;
+
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "rating", columnDefinition = "mpaa_rating")
     private String rating;
+
+    @Column(name = "rental_rate")
     private BigDecimal rentalRate;
 
     @Column(name = "rental_duration")
     private Integer rentalDuration;
 
     private String specialFeatures;
+
+    @Transient
     private int rentalCount;
     @Column(name = "length")
     private Integer length;

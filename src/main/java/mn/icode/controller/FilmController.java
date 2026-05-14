@@ -1,7 +1,6 @@
 package mn.icode.controller;
 
 import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,12 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import mn.icode.model.Film;
-import mn.icode.model.RentalCount;
 import mn.icode.repository.FilmRepository;
 
-@Controller
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
 @RestController
@@ -31,24 +31,49 @@ public class FilmController {
     public ResponseEntity<List<Film>> getFilms(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size
-
     ) {
-        int offset = (page - 1) * size;
-        return ResponseEntity.ok(filmRepository.findAll(size, offset));
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("title"));
+        List<Film> films = filmRepository.findAll(pageable).getContent();
+        return ResponseEntity.ok(films);
     }
 
     @GetMapping("/films/search")
     public ResponseEntity<List<Film>> search(
-            @RequestParam(required = false) String title) {
-        List<Film> results = filmRepository.search(title);
-        return results.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(results);
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String rating,
+            @RequestParam(required = false) String keyword
+    ) {
+        // rating filter (from filter buttons)
+        if (rating != null && !rating.isEmpty()) {
+            List<Film> results = filmRepository.findByRating(rating);
+            return results.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(results);
+        }
+        // title or keyword search
+        String searchTerm = keyword != null ? keyword : title;
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            List<Film> results = filmRepository.searchByKeyword(searchTerm);
+            return results.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(results);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/films/by-duration")
+    public ResponseEntity<List<Film>> byRentalDuration(
+            @RequestParam Integer min,
+            @RequestParam Integer max) {
+        List<Film> results = filmRepository.findByRentalDurationBetween(min, max);
+        return ResponseEntity.ok(results);
     }
 
     @GetMapping("/films/not-in-inventory")
-    public ResponseEntity<List<Film>> getNonInventory(@RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        int offset = (page - 1) * size;
-        return ResponseEntity.ok(filmRepository.notExist(size, offset));
+    public ResponseEntity<List<Film>> getNonInventory() {
+        return ResponseEntity.ok(filmRepository.findNotExistedInInventory());
+    }
+
+    @GetMapping("/films/top-rented")
+    public ResponseEntity<List<Film>> getTopFilms(
+            @RequestParam(defaultValue = "10") int limit) {
+        return ResponseEntity.ok(filmRepository.findTopRented(limit));
     }
 
     @GetMapping("/films/{id}")
@@ -58,54 +83,17 @@ public class FilmController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/films/top-rented")
-    public ResponseEntity<List<RentalCount>> getTopFilms(
-            @RequestParam(defaultValue = "10") int limit) {
-        return ResponseEntity.ok(filmRepository.findTopRented(limit));
-    }
-
-    // @DeleteMapping("/films/{id}")
-    // public ResponseEntity<Optional<Film>> deletefilm(@PathVariable int id){
-    // Optional <Film> film = filmRepository.findById(id);
-    // if (film == null){
-    // return ResponseEntity.notFound().build();
-    // }
-    // filmRepository.delete(id);
-    // return ResponseEntity.ok(film);
-    // }
-
     @DeleteMapping("/films/{id}")
     public ResponseEntity<?> deleteFilm(@PathVariable int id) {
         try {
             if (filmRepository.findById(id).isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
-            filmRepository.delete(id);
+            filmRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            // Энд алдааг барьж авна
             return ResponseEntity.status(500)
-                    .body("Энэ кино өөр өгөгдөлтэй холбоотой тул устгах боломжгүй (FK Constraint).");
+                .body("Энэ кино өөр өгөгдөлтэй холбоотой тул устгах боломжгүй.");
         }
     }
-
-    @GetMapping("/search")
-    public List<Film> search(
-            @RequestParam(required = false) String rating,
-            @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) Double maxRate,
-            @RequestParam(required = false) Integer minLength,
-            @RequestParam(required = false) Integer maxLength) {
-
-        if (rating != null)
-            return filmRepository.findByRating(rating); 
-        if (keyword != null)
-            return filmRepository.findBycase(keyword); 
-        if (maxRate != null)
-            return filmRepository.findByRentalRate(maxRate); 
-        if (minLength != null && maxLength != null)
-            return filmRepository.findByLengthBetween(minLength, maxLength); 
-        return filmRepository.findAll(100, 0);
-    }
-
 }
