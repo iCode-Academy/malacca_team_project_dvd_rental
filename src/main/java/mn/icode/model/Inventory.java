@@ -12,7 +12,7 @@ public class Inventory {
 
     @Column(name = "film_id")
     private Integer filmId;
-
+    
     public Inventory() {
     }
 

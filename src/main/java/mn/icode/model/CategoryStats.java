@@ -1,6 +1,7 @@
 package mn.icode.model;
 
 public class CategoryStats {
+
     private String name;
     private Integer filmCount;
     private Double aveRentRate;
@@ -37,5 +38,4 @@ public class CategoryStats {
     public void setTotalRentals(Integer totalRentals) {
         this.totalRentals = totalRentals;
     } 
-    
 }

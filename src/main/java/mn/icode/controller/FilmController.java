@@ -2,14 +2,7 @@ package mn.icode.controller;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,6 +21,7 @@ public class FilmController {
         this.filmRepository = filmRepository;
     }
 
+    // ── GET /api/films — жагсаалт (хуудаслалттай) ─────────────────────────
     @GetMapping("/films")
     public ResponseEntity<List<Film>> getFilms(
             @RequestParam(defaultValue = "1") int page,
@@ -37,6 +31,7 @@ public class FilmController {
         return ResponseEntity.ok(films);
     }
 
+    // ── GET /api/films/search — хайлт ─────────────────────────────────────
     @GetMapping("/films/search")
     public ResponseEntity<List<Film>> search(
             @RequestParam(required = false) String title,
@@ -55,7 +50,6 @@ public class FilmController {
         }
 
         if (maxRate != null) {
-            System.out.println("Max rate joined");
             return ResponseEntity.ok(filmRepository.findByRentalRateLessThan(maxRate));
         }
 
@@ -66,34 +60,60 @@ public class FilmController {
         return ResponseEntity.ok(filmRepository.findAll());
     }
 
+    // ── GET /api/films/by-duration ─────────────────────────────────────────
     @GetMapping("/films/by-duration")
     public ResponseEntity<List<Film>> byRentalDuration(
             @RequestParam Integer min,
             @RequestParam Integer max) {
-        List<Film> results = filmRepository.findByRentalDurationBetween(min, max);
-        return ResponseEntity.ok(results);
+        return ResponseEntity.ok(filmRepository.findByRentalDurationBetween(min, max));
     }
 
+    // ── GET /api/films/not-in-inventory ───────────────────────────────────
     @GetMapping("/films/not-in-inventory")
     public ResponseEntity<List<Film>> getNonInventory() {
         return ResponseEntity.ok(filmRepository.findNotExistedInInventory());
     }
 
+    // ── GET /api/films/top-rented ─────────────────────────────────────────
     @GetMapping("/films/top-rented")
     public ResponseEntity<List<Film>> getTopFilms(
             @RequestParam(defaultValue = "10") int limit) {
         return ResponseEntity.ok(filmRepository.findTopRented(limit));
     }
 
+    // ── GET /api/films/{id} — нэг film унших ──────────────────────────────
     @GetMapping("/films/{id}")
-    public ResponseEntity<Film> getFilmById(@PathVariable("id") int id) {
+    public ResponseEntity<Film> getFilmById(@PathVariable int id) {
         return filmRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // ── POST /api/films — шинэ film үүсгэх ───────────────────────────────
+    @PostMapping("/films")
+    public ResponseEntity<Film> createFilm(@RequestBody Film film) {
+        Film saved = filmRepository.save(film);
+        return ResponseEntity.ok(saved);
+    }
+
+    // ── PUT /api/films/{id} — film засах ──────────────────────────────────
+    @PutMapping("/films/{id}")
+    public ResponseEntity<Film> updateFilm(@PathVariable int id,
+                                           @RequestBody Film updated) {
+        return filmRepository.findById(id).map(f -> {
+            f.setTitle(updated.getTitle());
+            f.setRating(updated.getRating());
+            f.setRentalRate(updated.getRentalRate());
+            f.setRentalDuration(updated.getRentalDuration());
+            f.setReplacementCost(updated.getReplacementCost());
+            f.setSpecialFeatures(updated.getSpecialFeatures());
+            return ResponseEntity.ok(filmRepository.save(f));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // ── DELETE /api/films/{id} — film устгах ──────────────────────────────
     @DeleteMapping("/films/{id}")
-    public ResponseEntity<?> deleteFilm(@PathVariable int id) {
+    public ResponseEntity<?> deleteFilm(@PathVariable("id") int id) {
         try {
             if (filmRepository.findById(id).isEmpty()) {
                 return ResponseEntity.notFound().build();

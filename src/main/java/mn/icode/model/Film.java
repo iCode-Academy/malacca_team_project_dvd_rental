@@ -1,9 +1,11 @@
 package mn.icode.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
+import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -21,7 +23,7 @@ public class Film {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "rating")
+    @Column(name = "rating", columnDefinition = "mpaa_rating")
     private String rating;
 
     @Column(name = "rental_rate")
@@ -39,6 +41,13 @@ public class Film {
     @Column(name = "special_features")
     private String specialFeatures;
 
+    @Column(name = "language_id", nullable = false)
+    private Integer languageId = 1;  // 1 = English (Sakila default)
+
+    @UpdateTimestamp
+    @Column(name = "last_update")
+    private LocalDateTime lastUpdate;
+
     @ManyToMany
     @JoinTable(
         name = "film_actor",
@@ -54,14 +63,15 @@ public class Film {
     public Film() {}
 
     // --- Getters and Setters ---
+
     public Integer getFilmId() { return filmId; }
     public void setFilmId(Integer filmId) { this.filmId = filmId; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
-    public List<Actor> getActors() { return actors; }
-    public void setActors(List<Actor> actors) { this.actors = actors; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
     public String getRating() { return rating; }
     public void setRating(String rating) { this.rating = rating; }
@@ -69,11 +79,11 @@ public class Film {
     public BigDecimal getRentalRate() { return rentalRate; }
     public void setRentalRate(BigDecimal rentalRate) { this.rentalRate = rentalRate; }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-
     public Integer getRentalDuration() { return rentalDuration; }
     public void setRentalDuration(Integer rentalDuration) { this.rentalDuration = rentalDuration; }
+
+    public Integer getLength() { return length; }
+    public void setLength(Integer length) { this.length = length; }
 
     public BigDecimal getReplacementCost() { return replacementCost; }
     public void setReplacementCost(BigDecimal replacementCost) { this.replacementCost = replacementCost; }
@@ -81,8 +91,14 @@ public class Film {
     public String getSpecialFeatures() { return specialFeatures; }
     public void setSpecialFeatures(String specialFeatures) { this.specialFeatures = specialFeatures; }
 
-    public Integer getLength() { return length; }
-    public void setLength(Integer length) { this.length = length; }
+    public Integer getLanguageId() { return languageId; }
+    public void setLanguageId(Integer languageId) { this.languageId = languageId; }
+
+    public LocalDateTime getLastUpdate() { return lastUpdate; }
+    public void setLastUpdate(LocalDateTime lastUpdate) { this.lastUpdate = lastUpdate; }
+
+    public List<Actor> getActors() { return actors; }
+    public void setActors(List<Actor> actors) { this.actors = actors; }
 
     public int getRentalCount() { return rentalCount; }
     public void setRentalCount(int rentalCount) { this.rentalCount = rentalCount; }

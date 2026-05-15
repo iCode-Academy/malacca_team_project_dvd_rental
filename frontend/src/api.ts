@@ -10,6 +10,8 @@ export interface FilmDetail extends Film {
     rentalDuration:  number;
     replacementCost: number;
     specialFeatures: string | null;
+    languageId:      number; 
+    length?:         number;
 }
 
 export interface Actor {
