@@ -4,7 +4,9 @@ import { apiFetch, Film } from "./api.js";
 async function loadByLength(min: number, max: number): Promise<void> {
     const container = document.getElementById("length-results")!;
     container.innerHTML = '<p class="loading">Loading...</p>';
-    const films = await apiFetch<Film[]>(`/api/films/search?minLength=${min}&maxLength=${max}`); // (55)
+     const films = await apiFetch<Film[]>(`/api/films/search?minLength=${min}&maxLength=${max}`); // (55)
+    //const films = await apiFetch<Film[]>(`/api/by-length`); // (55)
+
     renderCardList(films, container);
 }
 
@@ -24,14 +26,19 @@ function renderCardList(films: Film[], container: HTMLElement): void {
 
 function init(): void {
     document.getElementById("btn-length-filter")!.addEventListener("click", () => {
+        console.log("button pressed")
         const min = Number((document.getElementById("length-min") as HTMLInputElement).value); // (57)
         const max = Number((document.getElementById("length-max") as HTMLInputElement).value); // (58)
         if (min >= 0 && max > min) loadByLength(min, max);
     });
+    
     document.getElementById("btn-duration-filter")!.addEventListener("click", () => {
         const min = Number((document.getElementById("duration-min") as HTMLInputElement).value); // (59)
         const max = Number((document.getElementById("duration-max") as HTMLInputElement).value);
         if (min >= 0 && max > min) loadByDuration(min, max);
     });
 }
-init();
+// init() дуудлагын оронд үүнийг ашигла
+document.addEventListener("DOMContentLoaded", () => {
+    init();
+});
