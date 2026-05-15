@@ -42,10 +42,14 @@ public class ActorController {
         return actorRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/actors/{id}/films")
-    public ResponseEntity<List<Film>> getFilmsByActor(@PathVariable int id) {
-        return ResponseEntity.ok(actorRepository.findById(id));
-    }
+    // @GetMapping("/actors/{id}/films")
+    // public ResponseEntity<List<Film>> getFilmsByActor(@PathVariable("id") int id) {
+    //     List<Film> films = actorRepository.findByActor(id);
+    //     if(films.isEmpty()){
+    //         return ResponseEntity.notFound().build();
+    //     }
+    //     return ResponseEntity.ok(films);
+    // }
 
     @GetMapping("/actors/search")
     public List<Actor> searchActors(
