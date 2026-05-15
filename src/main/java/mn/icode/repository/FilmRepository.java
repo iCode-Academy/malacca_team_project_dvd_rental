@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public interface FilmRepository extends JpaRepository<Film, Integer> {
 
@@ -41,4 +42,6 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
     List<Film> findByTitleContainingIgnoreCase(String keyword);
     List<Film> findByRentalRateLessThan(Double maxRate);
     List<Film> findByLengthBetween(Integer min, Integer max);
+
+    public void deleteById(int id);
 }

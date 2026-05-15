@@ -105,4 +105,11 @@ public class FilmController {
                     .body("Энэ кино өөр өгөгдөлтэй холбоотой тул устгах боломжгүй.");
         }
     }
+
+
+    @GetMapping("/by-length")
+public List<Film> byLength(@RequestParam(defaultValue = "0") Integer min,
+                           @RequestParam(defaultValue = "300") Integer max) {
+    return filmRepository.findByLengthBetween(min, max);
+}
 }
