@@ -26,7 +26,7 @@ function renderCardList(films: Film[], container: HTMLElement): void {
 
 function init(): void {
     document.getElementById("btn-length-filter")!.addEventListener("click", () => {
-        console.log("button pressed")
+
         const min = Number((document.getElementById("length-min") as HTMLInputElement).value); // (57)
         const max = Number((document.getElementById("length-max") as HTMLInputElement).value); // (58)
         if (min >= 0 && max > min) loadByLength(min, max);
